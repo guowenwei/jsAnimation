@@ -2,102 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JS 动画</title>
+    <title>链式运动</title>
     <style>
-        ul, li {
+        ul{
             list-style: none;
         }
-
-        ul li {
-            margin-bottom: 10px;
-            background: red;
-            /**
-             * opacity 透明度
-             */
-            opacity: 30;
-            width: 200px;
-            height: 200px;
-            border: 4px solid green;
+        li{
+            width: 300px;
+            height: 300px;
+            background: rebeccapurple;
+            opacity: 100;
         }
     </style>
+    <script type="text/javascript" src="./move.js"></script>
+
     <script>
 
-        window.onload = function () {
-            var li2 = document.getElementById('1');
-            li2.onmouseover = function () {
-                startAnimation(this, 'width', 500);
-            }
-            li2.onmouseout = function () {
-                startAnimation(this, 'width', 200);
-            }
+        window.onload=function () {
 
-            var li1 = document.getElementById('2');
-            li1.onmouseover = function () {
-                startAnimation(this,'height',500);
-            }
-            li1.onmouseout = function () {
-                startAnimation(this,'height',200)
-            }
+            var li = document.getElementById('2');
 
-            var li3 = document.getElementById('3');
-            li3.onmouseover = function () {
-                startAnimation(this,'opacity',30);
+            
+            /**
+             * 链式运动:先后执行
+             */
+//            li.onmouseover = function (){
+//                startAnimation(li,{opacity:20},function () {
+//                    startAnimation(li,{width:500},function () {
+//                        startAnimation(li,{height:100})
+//                    })
+//                });
+//            }
+//
+//            li.onmouseout = function () {
+//                console.log(li.style.opacity);
+//                startAnimation(li,{height:300},function () {
+//                    startAnimation(li,{width:300},function () {
+//                        startAnimation(li,{opacity:100})
+//                    })
+//                })
+//            }
+
+
+            /**
+             * 同时运动:利用json格式的文件来同时运动
+             */
+            li.onmouseover = function () {
+                startAnimation(li,{height:600,width:400,opacity:30});
             }
-            li3.onmouseout = function () {
-                startAnimation(this,'opacity',100);
+            li.onmouseout = function () {
+                startAnimation(li,{height:300,width:300,opacity:100});
             }
         }
 
-        function startAnimation(obj, attr, target) {
-            clearInterval(obj.timer);
-
-            obj.timer = setInterval(function () {
-                var icur = 0;
-                if (attr == 'opacity') {
-                    //Math.round四舍五入
-                    icur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
-                } else {
-                    icur = parseInt(getStyle(obj, attr));
-                }
-
-                var speed = (target - icur) / 8;
-                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-                if (icur == target) {
-                    clearInterval(obj.timer);
-                } else {
-                    if (attr == 'opacity') {
-                        obj.style.filter = 'alpha:(opacity:'+icur+speed+')';
-                        obj.style.opacity = (speed + icur) / 100;
-                        console.log(obj.style.opacity);
-                    } else {
-                        obj.style[attr] = icur + speed + 'px';
-                    }
-                }
-            }, 30)
-        }
-
-        /**
-         * 根据对象得到真实的属性
-         * @param obj
-         * @param attr
-         * @returns {*}
-         */
-        function getStyle(obj, attr) {
-            if (obj.currentStyle) {//IE
-                return obj.currentStyle[attr];
-            } else {//firefox
-                return getComputedStyle(obj, false)[attr];
-            }
-        }
 
     </script>
 </head>
 <body>
-<ul>
-    <li id="1"></li>
-    <li id="2"></li>
-    <li id="3"></li>
-</ul>
-
+    <ul>
+        <li id="2"></li>
+    </ul>
 </body>
 </html>
