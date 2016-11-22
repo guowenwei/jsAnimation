@@ -14,7 +14,7 @@
             /**
              * opacity 透明度
              */
-            opacity: 1;
+            opacity: 30;
             width: 200px;
             height: 200px;
             border: 4px solid green;
@@ -41,13 +41,13 @@
 
             var li3 = document.getElementById('3');
             li3.onmouseover = function () {
-                startAnimation(this,'opacity',0.5);
+                startAnimation(this,'opacity',30);
             }
             li3.onmouseout = function () {
-                startAnimation(this,'opacity',1);
+                startAnimation(this,'opacity',100);
             }
         }
-        var alpha = 30;
+
         function startAnimation(obj, attr, target) {
             clearInterval(obj.timer);
 
